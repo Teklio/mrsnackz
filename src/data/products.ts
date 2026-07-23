@@ -4,9 +4,9 @@ export const staticProducts = [
         title: "Banana Chips Classic",
         description: "Crispy golden slices of Kerala's finest Nendran bananas, fried in pure coconut oil",
         price: 80,
-        image: { filename: "/assets/products/1.png" },
+        image: { filename: "/assets/products/chips-classic.jpeg" },
         images: [
-            "/assets/products/1.png",
+            "/assets/products/chips-classic.jpeg",
             "/assets/products/detail/bowl.png",
             "/assets/products/detail/bananas.png"
         ],
@@ -34,7 +34,12 @@ export const staticProducts = [
         title: "Mixture Spicy",
         description: "A fiery blend of crispy noodles, peanuts, curry leaves, and aromatic spices",
         price: 60,
-        image: { filename: "/assets/products/2.png" },
+        image: { filename: "/assets/products/mixture/mixture.jpeg" },
+        images: [
+            "/assets/products/mixture/mixture.jpeg",
+            "/assets/products/mixture/mixture1.jpeg",
+            "/assets/products/mixture/mixture2.jpeg"
+        ],
         badge: "Spicy",
         rating: 4.8,
         gram: "100g",
@@ -58,7 +63,12 @@ export const staticProducts = [
         title: "Potato Chips",
         description: "Crunchy cassava chips with a hint of salt, a Kerala household favorite",
         price: 60,
-        image: { filename: "/assets/products/3.png" },
+        image: { filename: "/assets/products/potatochips/potatochips.jpeg" },
+        images: [
+            "/assets/products/potatochips/potatochips.jpeg",
+            "/assets/products/potatochips/potatochips2.jpeg",
+            "/assets/products/potatochips/potatochips3.jpeg"
+        ],
         badge: "Traditional",
         rating: 4.7,
         gram: "50g",
@@ -81,11 +91,11 @@ export const staticProducts = [
         title: "Banana Chips Masala",
         description: "Crispy golden slices of Kerala's finest Nendran bananas,fried in pure coconut oil and organic kerala spices",
         price: 80,
-        image: { filename: "/assets/products/4.png" },
+        image: { filename: "/assets/products/chips-masala/chips-masala.jpeg" },
         images: [
-            "/assets/products/4.png",
-            "/assets/products/detail/masala1.png",
-            "/assets/products/detail/masala2.png"
+            "/assets/products/chips-masala/chips-masala.jpeg",
+            "/assets/products/chips-masala/chips-masala2.jpeg",
+            "/assets/products/chips-masala/chips-masala3.jpeg"
         ],
         badge: "Best Seller",
         rating: 4.9,
@@ -110,7 +120,12 @@ export const staticProducts = [
         title: "Tapiaco Chips Spicy",
         description: "A fiery blend of crispy Tapiaco chips fries and aromatic spices",
         price: 50,
-        image: { filename: "/assets/products/5.png" },
+        image: { filename: "/assets/products/capiaco/cap.jpeg" },
+        images: [
+            "/assets/products/capiaco/cap.jpeg",
+            "/assets/products/capiaco/cap-2.jpeg",
+            "/assets/products/capiaco/cap-3.jpeg"
+        ],
         badge: "Spicy",
         rating: 4.1,
         gram: "50g",
@@ -138,7 +153,12 @@ export const staticProducts = [
             "250g": 349,
             "120g": 249
         },
-        image: { filename: "/assets/products/morningpowermix.png" },
+        image: { filename: "/assets/products/morningpower/morningpower1.jpeg" },
+        images: [
+            "/assets/products/morningpower/morningpower1.jpeg",
+            "/assets/products/morningpower/morningpower2.jpeg",
+            "/assets/products/morningpower/morningpower3.jpeg"
+        ],
         badge: "Healthy",
         rating: 4.8,
         gram: ["250g", "120g"],
@@ -166,7 +186,12 @@ export const staticProducts = [
             "250g": 549,
             "120g": 299
         },
-        image: { filename: "/assets/products/powerpro.png" },
+        image: { filename: "/assets/products/protienmix/protmix.jpeg" },
+        images: [
+            "/assets/products/protienmix/protmix.jpeg",
+            "/assets/products/protienmix/protmix2.jpeg",
+            "/assets/products/protienmix/protmix3.jpeg"
+        ],
         badge: "Protein Rich",
         rating: 4.9,
         gram: ["250g", "120g"],
@@ -194,7 +219,11 @@ export const staticProducts = [
             "300g": 449,
             "180g": 299
         },
-        image: { filename: "/assets/products/honeygoldmix.png" },
+        image: { filename: "/assets/products/honeymix/honey1.jpeg" },
+        images: [
+            "/assets/products/honeymix/honey1.jpeg",
+            "/assets/products/honeymix/honey2.jpeg"
+        ],
         badge: "Healthy",
         rating: 4.7,
         gram: ["300g", "180g"],
