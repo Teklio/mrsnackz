@@ -31,6 +31,9 @@ export default function ProductList({ blok }: { blok?: any }) {
         }
     }
 
+    // Show latest added products first
+    storyblokProducts = [...storyblokProducts].reverse();
+
     const dynamicItems = storyblokProducts.map((p: any) => {
         const imageList = Array.isArray(p.image)
             ? p.image.map((img: any) => typeof img === "string" ? img : img?.filename).filter(Boolean)

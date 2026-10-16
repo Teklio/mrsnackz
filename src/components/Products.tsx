@@ -26,6 +26,9 @@ export default function Products({ blok, limit }: { blok?: any; limit?: number }
         }
     }
 
+    // Show latest added products first
+    dynamicItems = [...dynamicItems].reverse();
+
     dynamicItems = dynamicItems.map((p: any) => {
         const primaryImage = (Array.isArray(p.image) ? p.image[0]?.filename : p.image?.filename) ||
             (Array.isArray(p.images) ? (p.images[0]?.filename || p.images[0]) : "") ||

@@ -54,11 +54,11 @@ export default function Footer() {
                     <div className="lg:col-span-3 flex flex-col gap-5">
                         <h4 className="text-sm font-bold text-white tracking-widest uppercase">Our Snacks</h4>
                         <nav className="flex flex-col gap-3.5 mt-1">
-                            <Link href="#" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Banana Chips</Link>
-                            <Link href="#" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Spicy Mixture</Link>
-                            <Link href="#" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Tapioca Chips</Link>
-                            <Link href="#" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Jackfruit Chips</Link>
-                            <Link href="#" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Sharkara Varatti</Link>
+                            <Link href="/products" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Banana Chips</Link>
+                            <Link href="/products" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Spicy Mixture</Link>
+                            <Link href="/products" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Tapioca Chips</Link>
+                            <Link href="/products" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Jackfruit Chips</Link>
+                            <Link href="/products" className="text-white/70 hover:text-[#EAB308] transition-colors text-sm sm:text-base">Sharkara Varatti</Link>
                         </nav>
                     </div>
 
