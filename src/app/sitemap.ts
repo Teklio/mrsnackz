@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       version: 'draft',
     })
     const products = data?.story?.content?.products || []
-    productUrls = products.map((product: any) => ({
+    productUrls = [...products].reverse().map((product: any) => ({
       url: `${baseUrl}/products/${product._uid}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
