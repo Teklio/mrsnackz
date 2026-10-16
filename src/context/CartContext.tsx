@@ -12,6 +12,8 @@ type CartItem = {
     flavor?: string;
 };
 
+
+
 type CartContextType = {
     cartItems: CartItem[];
     isCartOpen: boolean;
