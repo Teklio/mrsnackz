@@ -8,14 +8,13 @@ import { motion } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import OrderForm from "./Order";
 
-import { staticProducts } from "@/data/products";
 import { storyblokEditable } from "@storyblok/react";
 
 export default function Products({ blok, limit }: { blok?: any; limit?: number }) {
     const { addToCart } = useCart();
     const [selectedProduct, setSelectedProduct] = useState<{ title: string; flavor: string; price: number; gram: string } | null>(null);
 
-    // Combine static products with Storyblok products provided via the 'blok' prop
+    // Retrieve Storyblok products provided via the 'blok' prop
     // Handles both singular 'product' and plural 'products' fields
     let dynamicItems = blok?.product || blok?.products || [];
 
@@ -27,7 +26,17 @@ export default function Products({ blok, limit }: { blok?: any; limit?: number }
         }
     }
 
-    let items = [...dynamicItems, ...[...staticProducts].reverse()];
+    dynamicItems = dynamicItems.map((p: any) => {
+        const primaryImage = (Array.isArray(p.image) ? p.image[0]?.filename : p.image?.filename) ||
+            (Array.isArray(p.images) ? (p.images[0]?.filename || p.images[0]) : "") ||
+            "";
+        return {
+            ...p,
+            image: { filename: primaryImage }
+        };
+    });
+
+    let items = dynamicItems;
 
     const displayLimit = limit || blok?.limit;
 

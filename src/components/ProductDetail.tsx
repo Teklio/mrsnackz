@@ -15,7 +15,7 @@ interface ProductDetailProps {
         description: string;
         price: number;
         priceMapping?: Record<string, number>;
-        image: { filename: string };
+        image?: { filename: string } | Array<{ filename: string }> | string;
         badge?: string;
         rating: number;
         gram: string | string[];
@@ -38,9 +38,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const [isOrderOpen, setIsOrderOpen] = useState(false);
 
     // Use product images if provided, fallback to repeating the main image
-    const images = product.images && product.images.length > 0
+    const rawImages = (Array.isArray(product.images) && product.images.length > 0)
         ? product.images
-        : [product.image.filename, product.image.filename, product.image.filename];
+        : (Array.isArray(product.image) && product.image.length > 0
+            ? product.image
+            : [typeof product.image === "object" && !Array.isArray(product.image) ? product.image?.filename : product.image].filter(Boolean));
+
+    const images = rawImages.map((img: any) => typeof img === "string" ? img : img?.filename).filter(Boolean);
+    const displayImages = images.length > 0 ? images : ["/assets/logo/logo.png"];
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -69,7 +74,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         style={{ background: product.background || '#F4F4F5' }}
                     >
                         <Image
-                            src={images[selectedImage]}
+                            src={displayImages[selectedImage] || displayImages[0]}
                             alt={product.title}
                             width={600}
                             height={600}
@@ -78,7 +83,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </motion.div>
 
                     <div className="grid grid-cols-3 gap-4">
-                        {images.map((img, idx) => (
+                        {displayImages.map((img, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setSelectedImage(idx)}
@@ -170,7 +175,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     id: product._uid,
                                     name: product.title,
                                     price: product.price,
-                                    image: product.image?.filename,
+                                    image: displayImages[0],
                                     gram: product.gram,
                                     flavor: product.flavor
                                 })}

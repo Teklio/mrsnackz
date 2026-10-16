@@ -2,11 +2,10 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { FiShoppingCart, FiSearch, FiFilter, FiChevronDown } from "react-icons/fi";
+import { FiShoppingCart, FiSearch, FiChevronDown } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import OrderForm from "./Order";
-import { staticProducts } from "@/data/products";
 import Link from "next/link";
 
 export default function ProductList({ blok }: { blok?: any }) {
@@ -32,29 +31,41 @@ export default function ProductList({ blok }: { blok?: any }) {
         }
     }
 
-    const dynamicItems = storyblokProducts.map((p: any) => ({
-        ...p,
-        price: parseInt(p.price) || 0,
-        rating: p.rating || 5.0,
-        gram: p.gram || p.weight || "",
-        flavor: p.flavor || "",
-        category: p.category || "General"
-    }));
+    const dynamicItems = storyblokProducts.map((p: any) => {
+        const imageList = Array.isArray(p.image)
+            ? p.image.map((img: any) => typeof img === "string" ? img : img?.filename).filter(Boolean)
+            : (Array.isArray(p.images) ? p.images : []);
+        const primaryImage = (Array.isArray(p.image) ? p.image[0]?.filename : p.image?.filename) ||
+            (Array.isArray(p.images) ? (p.images[0]?.filename || p.images[0]) : "") ||
+            "";
 
+        return {
+            ...p,
+            image: { filename: primaryImage },
+            images: imageList.length > 0 ? imageList : (primaryImage ? [primaryImage] : []),
+            price: parseInt(p.price) || 0,
+            rating: p.rating || 5.0,
+            gram: p.gram || p.weight || "",
+            flavor: p.flavor || "",
+            category: p.category || "General"
+        };
+    });
 
-    const allItems = useMemo(() => [...dynamicItems, ...[...staticProducts].reverse()], [dynamicItems]);
+    const allItems = useMemo(() => {
+        return dynamicItems;
+    }, [dynamicItems]);
 
     // Filtering logic
     const filteredItems = useMemo(() => {
-        return allItems.filter(item => {
-            const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return allItems.filter((item: any) => {
+            const matchesSearch = item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.description?.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesCategory = categoryFilter === "All" || item.category === categoryFilter || item.flavor === categoryFilter;
             return matchesSearch && matchesCategory;
         });
     }, [allItems, searchQuery, categoryFilter]);
 
-    const categories = ["All", "Masala", ...Array.from(new Set(allItems.map(item => item.category)))];
+    const categories: string[] = ["All", "Masala", ...Array.from(new Set<string>(allItems.map((item: any) => String(item.category || "")))).filter(Boolean)];
 
     return (
         <section className="pb-12 pt-0 px-6 max-w-7xl mx-auto w-full">

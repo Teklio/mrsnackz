@@ -1,15 +1,25 @@
 import { MetadataRoute } from 'next'
-import { staticProducts } from '@/data/products'
+import { getStoryblokApi } from '@/lib/storyblok'
  
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.mrsnackz.com'
   
-  const productUrls = staticProducts.map((product) => ({
-    url: `${baseUrl}/products/${product._uid}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }))
+  let productUrls: MetadataRoute.Sitemap = []
+  try {
+    const storyblokApi = getStoryblokApi()
+    const { data } = await storyblokApi.get('cdn/stories/products', {
+      version: 'draft',
+    })
+    const products = data?.story?.content?.products || []
+    productUrls = products.map((product: any) => ({
+      url: `${baseUrl}/products/${product._uid}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }))
+  } catch (err) {
+    // Continue with static pages if API is unreachable
+  }
  
   return [
     {

@@ -1,16 +1,45 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { staticProducts } from "@/data/products";
 import ProductDetail from "@/components/ProductDetail";
 import { getStoryblokApi } from "@/lib/storyblok";
 import { Metadata } from "next";
 
+async function getProductById(id: string) {
+    try {
+        const storyblokApi = getStoryblokApi();
+        const { data } = await storyblokApi.get("cdn/stories/products", {
+            version: "draft",
+        });
+        const sbProducts = data?.story?.content?.products || [];
+        const found = sbProducts.find((p: any) => p._uid === id || p.title?.toLowerCase().replace(/\s+/g, '-') === id);
+        if (found) {
+            const imageList = Array.isArray(found.image)
+                ? found.image.map((img: any) => typeof img === "string" ? img : img?.filename).filter(Boolean)
+                : (Array.isArray(found.images) ? found.images : []);
+            const primaryImage = (Array.isArray(found.image) ? found.image[0]?.filename : found.image?.filename) || imageList[0] || "";
+
+            return {
+                ...found,
+                price: parseInt(found.price) || 0,
+                rating: found.rating || 5.0,
+                image: { filename: primaryImage },
+                images: imageList.length > 0 ? imageList : (primaryImage ? [primaryImage] : []),
+                gram: found.gram || found.weight || "",
+                features: Array.isArray(found.features)
+                    ? found.features
+                    : (typeof found.features === 'string' ? found.features.split('\n').filter(Boolean) : [])
+            };
+        }
+    } catch (err) {
+        // Silently continue
+    }
+    return null;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const { id } = await params;
-    const product = staticProducts.find((p) => p._uid === id);
+    const product = await getProductById(id);
 
-    // For Storyblok products, we'd need to fetch metadata here too
-    // For now focus on static
     if (product) {
         return {
             title: `${product.title} | Mrsnackz`,
@@ -24,25 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    let product: any = staticProducts.find((p) => p._uid === id);
-
-    if (!product) {
-        // Try fetching from Storyblok
-        const storyblokApi = getStoryblokApi();
-        try {
-            // This is a simplified fetch. In a real app, you might search for the product in a list
-            // or fetch by slug if _uid is not available in the URL
-            const { data } = await storyblokApi.get("cdn/stories", {
-                version: "draft",
-                // Assuming we can find it somehow. For now, let's just handle static.
-            });
-
-            // Search in storyblok products if they have the same ID format
-            // ... logic to find product in Storyblok response ...
-        } catch (error) {
-            console.error("Error fetching Storyblok product:", error);
-        }
-    }
+    const product = await getProductById(id);
 
     if (!product) {
         return (
